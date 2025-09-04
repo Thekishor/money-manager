@@ -17,7 +17,7 @@ public class MailConfig {
     @Value("${mail.port}")
     private int port;
 
-    @Value("${mail.userName}")
+    @Value("${mail.username}")
     private String username;
 
     @Value("${mail.password}")
