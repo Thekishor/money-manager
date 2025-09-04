@@ -34,8 +34,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     private final JwtUtil jwtUtil;
 
-    @Value("${activation.link}")
-    private String activationLink;
+    @Value("${money.manager.backend.url}")
+    private String backend_url;
 
     @Override
     public ProfileResponse registerProfile(ProfileRequest profileRequest) {
@@ -47,7 +47,8 @@ public class ProfileServiceImpl implements ProfileService {
             profile.setActivationToken(UUID.randomUUID().toString());
             profile.setActivationTokenExpiry(LocalDateTime.now().plusHours(24));
             Profile savedProfile = profileRepository.save(profile);
-            String url = activationLink + savedProfile.getActivationToken();
+            String activation_link = backend_url + "/api/v1.0/activate?token=";
+            String url = activation_link + savedProfile.getActivationToken();
             String body = "Click on the following link to activate your account: " + url;
             String subject = "Activate your Money Manager account";
             emailService.sendEmail(savedProfile.getEmail(), subject, body);
